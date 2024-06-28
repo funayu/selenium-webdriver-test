@@ -1,6 +1,7 @@
 // ページ上の要素を見つけて操作するスクリプト（検索ボックスに文字列を入れて検索）
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
+const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 const { format } = require('date-fns');
@@ -19,17 +20,15 @@ function getFormattedDate() {
   try {
     // 特定のURLを開く
     await driver.get('https://www.google.com');
-    console.log('ページを開きました');
     // 検索ボックスにテキストを入力
     let searchBox = await driver.findElement(By.name('q'));
     await searchBox.sendKeys('Selenium WebDriver', Key.RETURN);
-    console.log('検索ボックスにテキストが入力されました');
     // タイトルが変更されるまで待機
     await driver.wait(until.titleContains('Selenium WebDriver'), 10000);
-    console.log('タイトル変更を待機');
     // タイトルを取得して表示
     let title = await driver.getTitle();
-    console.log(`ページタイトル：${title}`);
+    assert.strictEqual(title.includes('Selenium WebDriver'), true);
+    console.log('テスト成功：ページタイトルに「Selenium WebDriver」が含まれる');
 
     // スクリーンショットを撮影
     let screenshot = await driver.takeScreenshot();
