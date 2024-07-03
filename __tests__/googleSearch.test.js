@@ -11,9 +11,11 @@ function getFormattedDate() {
   return format(new Date(), 'yyyyMMdd_HHmmss');
 }
 
+// テストのグループを定義
 describe('Google Search', () => {
   let driver;
 
+  // テストが実行される前に一度だけ実行される処理
   beforeAll(async () => {
     driver = await new Builder()
       .forBrowser('chrome')
@@ -21,10 +23,12 @@ describe('Google Search', () => {
       .build();
   });
 
+  // 全てのテストが実行された後に一度だけ実行される処理
   afterAll(async () => {
     await driver.quit();
   });
 
+  // 個々のテストケース
   test('shod open Google and search for 「Selenium Webdriver」', async () => {
     await driver.get('https://google.com');
     let searchBox = await driver.findElement(By.name('q'));
